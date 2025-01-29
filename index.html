@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test</title>
+    <link rel="icon" href="data:,">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" 
+    integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" 
+      crossorigin="anonymous" 
+      referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  
+    <link rel="icon" href="leaf-solid.svg" type="image/svg+xml">
+
+  <link rel="icon" href="leaf-solid.ico" type="image/x-icon">
+
+  <link rel="apple-touch-icon" href="leaf-solid.svg">
+
+  <meta name="theme-color" content="#66BB6A">
+  <meta name="msapplication-TileColor" content="#66BB6A">
+ 
+</head>
+<body>
+    
+    <div class="app-container">
+        <header class="app-header">
+            <div class="logo">
+                <i class="fas fa-dumbbell"></i>  <!-- Changed icon -->
+                <h1>Nutrition-Monitor</h1>
+            </div>
+            <div class="date-selector">
+                <button id="prevDate"><i class="fas fa-chevron-left"></i></button>
+                <span id="currentDate"></span>
+                <button id="nextDate"><i class="fas fa-chevron-right"></i></button>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <div class="dashboard">
+                <div class="nutrition-summary">
+                    <div class="goal-progress">
+                        <div class="goals-header">
+                            <h3>Daily Goals</h3>
+                            <button id="editGoalsBtn" class="edit-goals-btn">
+                                <i class="fas fa-cog"></i>
+                            </button>
+                        </div>
+                        <div class="progress-bars">
+                            <div class="progress-item">
+                                <label>Calories</label>
+                                <div class="progress-bar">
+                                    <div id="calorieProgress" class="progress" style="width: 0%"></div>
+                                </div>
+                                <span id="calorieCount">0 / 2000</span>
+                            </div>
+                            <div class="progress-item">
+                                <label>Protein</label>
+                                <div class="progress-bar">
+                                    <div id="proteinProgress" class="progress" style="width: 0%"></div>
+                                </div>
+                                <span id="proteinCount">0g / 150g</span>
+                            </div>
+                            <div class="progress-item">
+                                <label>Carbs</label>
+                                <div class="progress-bar">
+                                    <div id="carbsProgress" class="progress" style="width: 0%"></div>
+                                </div>
+                                <span id="carbsCount">0g / 250g</span>
+                            </div>
+                            <div class="progress-item">
+                                <label>Fat</label>
+                                <div class="progress-bar">
+                                    <div id="fatProgress" class="progress" style="width: 0%"></div>
+                                </div>
+                                <span id="fatCount">0g / 65g</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="quick-stats">
+                        <div class="stat-card">
+                            <i class="fas fa-fire"></i>
+                            <span>Calories</span>
+                            <strong id="totalCal">0</strong>
+                        </div>
+                        <div class="stat-card">
+                            <i class="fas fa-drumstick-bite"></i>
+                            <span>Protein</span>
+                            <strong id="totalProtein">0g</strong>
+                        </div>
+                        <div class="stat-card">
+                            <i class="fas fa-bread-slice"></i>
+                            <span>Carbs</span>
+                            <strong id="totalCarbs">0g</strong>
+                        </div>
+                        <div class="stat-card">
+                            <i class="fas fa-cheese"></i>
+                            <span>Fat</span>
+                            <strong id="totalFat">0g</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="meals-section">
+                    <div class="meal-header">
+                        <h2>Today's Meals</h2>
+                    </div>
+
+                    <div class="meal-containers">
+                        <div id="breakfast" class="meal-container">
+                            <h3><i class="fas fa-sun"></i> Breakfast</h3>
+                            <button class="add-meal-btn" data-meal-type="breakfast">Add Breakfast</button>
+                            <div class="meal-items"></div>
+                        </div>
+                        <div id="lunch" class="meal-container">
+                            <h3><i class="fas fa-cloud-sun"></i> Lunch</h3>
+                            <button class="add-meal-btn" data-meal-type="lunch">Add Lunch</button>
+                            <div class="meal-items"></div>
+                        </div>
+                        <div id="dinner" class="meal-container">
+                            <h3><i class="fas fa-moon"></i> Dinner</h3>
+                            <button class="add-meal-btn" data-meal-type="dinner">Add Dinner</button>
+                            <div class="meal-items"></div>
+                        </div>
+                        <div id="snacks" class="meal-container">
+                            <h3><i class="fas fa-cookie"></i> Snacks</h3>
+                            <button class="add-meal-btn" data-meal-type="snacks">Add Snack</button>
+                            <div class="meal-items"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+    <!-- inside the modal div -->
+    <div id="addMealModal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close-button">×</span>
+            <h2><i class="fas fa-utensils"></i>Add Meal Item</h2>
+            <div class="search-container">
+                <div class="search-input-wrapper">
+                    <input 
+                        type="text" 
+                        id="foodSearch" 
+                        placeholder="Search foods..." 
+                        autocomplete="off"
+                        aria-label="Search for foods"
+                    >
+                    <button class="clear-search" aria-label="Clear search">
+                    </button>
+                    <button id="searchButton" class="search-button">
+                        <i class="fas fa-search"></i>
+                        <span>Search</span>
+                    </button>
+                </div>
+                <div id="searchResults" class="search-results hidden"></div>
+            </div>
+
+            <form id="addMealForm">
+                <input type="hidden" id="mealTypeInput">
+                <div class="form-group">
+                    <label for="dishName">Dish Name:</label>
+                    <input type="text" id="dishName" required>
+                </div>
+
+                <!-- File Upload Section -->
+                <div class="file-upload-wrapper">
+                    <input type="file" id="photo" accept="image/*" class="hidden">
+                    <label for="photo" class="file-upload-label">
+                        <div class="upload-content">
+                            <i class="fas fa-camera-retro upload-icon"></i>
+                            <div class="upload-text">
+                                <h4>Upload Food Photo</h4>
+                                <p>Click to browse or drag & drop</p>
+                            </div>
+                        </div>
+                        <div class="preview-container hidden">
+                            <img id="imagePreview" class="preview-image" alt="Food preview">
+                            <button type="button" class="remove-image-btn">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </label>
+                </div>
+
+                <div class="nutrition-inputs">
+                    <div class="input-group">
+                        <label for="servings">Servings:</label>
+                        <input type="number" id="servings" value="1" min="1">
+                    </div>
+                    <div class="input-group">
+                        <label for="calories">Calories:</label>
+                        <input type="number" id="calories" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="protein">Protein (g):</label>
+                        <input type="number" id="protein" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="carbs">Carbs (g):</label>
+                        <input type="number" id="carbs" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="fat">Fat (g):</label>
+                        <input type="number" id="fat" required>
+                    </div>
+                </div>
+
+                <button type="submit" class="primary-btn">Add Meal</button>
+            </form>
+        </div>
+    </div>
+
+    <button class="theme-toggle" aria-label="Toggle dark mode">
+        <i class="fas fa-moon"></i>
+    </button>
+
+    <div id="toast-container"></div>
+    
+
+    <script src="script.js"></script>
+</body>
+</html>
